@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import React, { useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import * as facemesh from '@tensorflow-models/facemesh';
@@ -8,6 +7,44 @@ import './App.css';
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+
+  // Section for facemesh
+  const runFacemesh = async () => {
+    const net = await facemesh.load({
+      inputResolution: {
+        width: 640,
+        height: 480,
+      },
+      scale: 0.8,
+    })
+
+    setInterval(() => {
+      detect(net);
+    }, 100)
+  }
+
+  // Section for detection
+  const detect = async (net) => {
+    if (typeof webcamRef.current !== 'undefined' 
+        && webcamRef.current !== null
+        && webcamRef.current.video.readyState === 4) 
+    {
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
+
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
+
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+
+      const face = await net.estimateFaces(video);
+      console.log(face);
+    }
+  }
+
+  runFacemesh();
 
   return (
     <div className="App">
@@ -24,6 +61,8 @@ function App() {
             zIndex: 9,
             width: 640,
             height: 480,
+            border: '5px solid #FFFFF0',
+            borderRadius: 20,
           }
         } />
 
