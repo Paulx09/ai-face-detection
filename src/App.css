@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -14,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +24,39 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 15px;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header {
+    padding: 10px;
+    font-size: calc(8px + 2vmin);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .App-header {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+  }
 }
 
 .App-link {
